@@ -1,0 +1,90 @@
+{% block content %}
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+<meta charset="utf-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" >
+  <style>
+   body{
+	   margin: 5%;
+	   text-indent: 1.5em;
+   }
+  </style>
+	<h3>{{ post.title }}</h3>
+		<p>
+            From {{post.category}} {{post.created_date|date:'H:i d/m/Y'}}
+            {{post.text|linebreaks}}
+			Published: {{post.published_date|date:'H:i d/m/Y'}} by {{post.author}}
+		</p>
+<hr>
+
+<h4>Chat</h4>
+{% if user.is_authenticated %}
+    <form action="post/" method="post">
+    {% csrf_token %}
+    <div class="input-group mb-3">
+      <input type="text"
+             class="form-control"
+             placeholder="Your message"
+             name="message"/>
+      <div class="input-group-append">
+        <input class="btn btn-success"
+                type="submit"
+                value="Send"/>
+      </div>
+    </div>
+	</form>
+	{% else %}
+    <p>Log in to add comments</p>
+{% endif %}
+<div id="history">
+    {% for message in latest_messages %}
+        <div class="card">
+        <div class="card-body">
+            <strong>
+                {{ message.author.username }}
+            </strong>
+            <br/>
+            <em>
+                {{ message.pub_date|date:'Y-m-d H:i:s' }}
+            </em>
+            <br/>
+            {{ message.message }}
+        </div>
+        </div>
+        <br/>
+    {% endfor %}
+</div>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js">
+</script>
+<script>
+function send_msg_update_request(){
+    $.get("msg_list/",{},parse_msg_update_response);
+}
+function parse_msg_update_response(data, success){
+    res = JSON.parse(data);
+    res_str = "";
+    for(i=0;i<res.length;i++){
+        res_str += '<div class="card">\n' +
+            '        <div class="card-body">\n' +
+            '            <strong>\n' +
+            '                '+res[i].author__username+'\n' +
+            '            </strong>\n' +
+            '            <br/>\n' +
+            '            <em>\n' +
+            '                '+res[i].pub_date+'\n' +
+            '            </em>\n' +
+            '            <br/>\n' +
+            '            '+res[i].message+'\n' +
+            '        </div>\n' +
+            '        </div>\n' +
+            '        <br/>'
+    }
+    $("#history").html(res_str);
+}
+setInterval(send_msg_update_request, 10000);
+</script>
+
+{% endblock content %}

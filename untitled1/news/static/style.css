@@ -1,0 +1,38 @@
+body {
+	font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
+}
+a:link, a:visited {
+	color: #447e9b;
+    text-decoration: none;
+	cursor: pointer;
+}
+a:focus, a:hover {
+    color: #036;
+}
+
+a:focus {
+    text-decoration: underline;
+}
+div.header {
+	background-color: #f2f2f2;;
+	padding: 20px;
+}
+
+div.header > p {
+	text-align: center;
+	font-size: 23px;
+	text-indent: 1.5em;
+	margin: 5%;
+}
+
+div.header + h3 {
+	padding: 8px;
+	font-size: 13px;
+	text-align: left;
+	background: #79aec8;
+	color: #fff;
+	letter-spacing: 0.5px;
+	text-transform: uppercase;
+	text-indent: 1.5em;
+	margin: 5%;
+}

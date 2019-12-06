@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block main %}
+    <h4 class="card-title">Last News</h4>
+    {% if message %}
+        <p class="alert alert-success">
+            <strong>{{ message }}</strong>
+        </p>
+    {% endif %}
+	{% for post in news %}
+		<p>
+			<strong>
+				<a href="/news/{{ post.id }}/">
+					{{post.title}}
+				</a>
+			</strong>
+			(published {{post.published_date|date:'H:i d/m/Y'}})
+		</p>
+	{% empty %}
+		<p>No news</p>
+	{% endfor %}
+{% endblock %}
